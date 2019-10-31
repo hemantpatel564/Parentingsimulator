@@ -24,8 +24,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     // Label for other messages (HP:100, Hunger:0)
     @IBOutlet var outputLabel: WKInterfaceLabel!
     
-     var imageName = ""
-    
+
+    var pokeName = ""
     // MARK: Delegate functions
     // ---------------------
 
@@ -38,24 +38,18 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         print("WATCH: Got message from Phone")
         // Message from phone comes in this format: ["course":"MADT"]
-        let nameExists = message["name"]
-        let courseExists = message["course"]
+    
         
-        if(nameExists != nil)
-        {
+        
         
         let message: String = message["name"] as! String
-        let imageName = UIImage(imageLiteralResourceName: message)
-        self.pokemonImageView.setImage(imageName)
-        self.messageLabel.setText("pokemon")
+        let pokeName = UIImage(imageLiteralResourceName: message)
+        self.pokemonImageView.setImage(pokeName)
+        self.messageLabel.setText("pikachu")
         
         
-    }
-         if(courseExists != nil)
-         {
-            let messageBody = message["course"] as! String
-            messageLabel.setText(messageBody)
-        }
+    
+    
         
     }
     
@@ -130,11 +124,10 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             if (results != nil && results!.count > 0) {
                 // 2. write your code to process the person's response
                 let choice = results?.first as? String
-                print(choice)
                 
-                self.imageName = choice!
-                self.nameLabel.setText(choice)
-                
+                self.pokeName = choice!
+                //self.nameLabel.setText(choice)
+                self.nameLabel.setText("\(self.pokeName) is not Hungry")
             }
         }
     }

@@ -87,7 +87,7 @@ class ViewController: UIViewController, WCSessionDelegate  {
         
         // 1. Try to send a message to the phone
         if (WCSession.default.isReachable) {
-            let message = ["course": "MADT"]
+            let message = ["name": "pikachu"]
             WCSession.default.sendMessage(message, replyHandler: nil)
             // output a debug message to the UI
             outputLabel.insertText("\nMessage sent to watch")
@@ -101,36 +101,43 @@ class ViewController: UIViewController, WCSessionDelegate  {
     }
     
   
-    func sendtoWatch()
-    {
-        let messagebody = ["name": self.selectimage]
-        WCSession.default.sendMessage(messagebody, replyHandler: nil)
-        
-    }
+
+
     
     // MARK: Choose a Pokemon actions
     
-    @IBAction func pokemonButtonPressed(_ sender: Any) {
-        print("You pressed the pokemon button")
+    @IBAction func pokemonButtonPressed(_ sender: Any)
+ 
+    {
         
+        print("You pressed the pokemon button")
+        if (WCSession.default.isReachable)
+        {
+        let message = ["name": "pikachu"]
+        WCSession.default.sendMessage(message, replyHandler: nil)
         self.selectimage = "pikachu"
-        sendtoWatch()
+    }
+        else{
+              print("PHONE: Cannot reach watch")
+        }
     }
         
     
     
     @IBAction func caterpieButtonPressed(_ sender: Any) {
-        print("You pressed the caterpie button")
         
-        self.selectimage = "caterpie"
-        sendtoWatch()
-
-        
-        
-        
-        
+        if (WCSession.default.isReachable)
+        {
+            print("You pressed the caterpie button")
+            let message = ["name": "caterpie"]
+            WCSession.default.sendMessage(message, replyHandler: nil)
+            self.selectimage = "caterpie"
     }
+        else{
+            print("PHONE: Cannot reach watch")
+        }
     
     
 }
 
+}

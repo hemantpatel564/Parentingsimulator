@@ -24,7 +24,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     // Label for other messages (HP:100, Hunger:0)
     @IBOutlet var outputLabel: WKInterfaceLabel!
     
-    
+     var imageName = ""
     
     // MARK: Delegate functions
     // ---------------------
@@ -38,8 +38,25 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         print("WATCH: Got message from Phone")
         // Message from phone comes in this format: ["course":"MADT"]
-        let messageBody = message["course"] as! String
-        messageLabel.setText(messageBody)
+        let nameExists = message["name"]
+        let courseExists = message["course"]
+        
+        if(nameExists != nil)
+        {
+        
+        let message: String = message["name"] as! String
+        let imageName = UIImage(imageLiteralResourceName: message)
+        self.pokemonImageView.setImage(imageName)
+        self.messageLabel.setText("pokemon")
+        
+        
+    }
+         if(courseExists != nil)
+         {
+            let messageBody = message["course"] as! String
+            messageLabel.setText(messageBody)
+        }
+        
     }
     
 
@@ -56,7 +73,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             WCSession.default.delegate = self
             WCSession.default.activate()
         }
-        
         
     }
     
@@ -83,7 +99,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             print("Attempting to send message to phone")
             self.messageLabel.setText("Sending msg to watch")
             WCSession.default.sendMessage(
-                ["name" : "Pritesh"],
+                ["name" : "pikachu"],
                 replyHandler: {
                     (_ replyMessage: [String: Any]) in
                     // @TODO: Put some stuff in here to handle any responses from the PHONE
@@ -105,10 +121,28 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     // MARK: Functions for Pokemon Parenting
     @IBAction func nameButtonPressed() {
         print("name button pressed")
+        
+        let cannedResponses = ["Hemant", "Rahul", "Krunal", "Ankit"]
+        presentTextInputController(withSuggestions: cannedResponses, allowedInputMode: .plain) {
+            
+            (results) in
+            
+            if (results != nil && results!.count > 0) {
+                // 2. write your code to process the person's response
+                let choice = results?.first as? String
+                print(choice)
+                
+                self.imageName = choice!
+                self.nameLabel.setText(choice)
+                
+            }
+        }
     }
 
     @IBAction func startButtonPressed() {
         print("Start button pressed")
+        
+        
     }
     
     @IBAction func feedButtonPressed() {

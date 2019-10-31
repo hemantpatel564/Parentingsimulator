@@ -11,6 +11,9 @@ import WatchConnectivity
 
 class ViewController: UIViewController, WCSessionDelegate  {
 
+    
+    var frameCounter = 0
+    var selectimage : String = ""
     // MARK: Outlets
     @IBOutlet weak var outputLabel: UITextView!
     
@@ -51,7 +54,7 @@ class ViewController: UIViewController, WCSessionDelegate  {
     // -----------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         
         // 1. Check if phone supports WCSessions
         print("view loaded")
@@ -97,14 +100,35 @@ class ViewController: UIViewController, WCSessionDelegate  {
         }
     }
     
+  
+    func sendtoWatch()
+    {
+        let messagebody = ["name": self.selectimage]
+        WCSession.default.sendMessage(messagebody, replyHandler: nil)
+        
+    }
     
     // MARK: Choose a Pokemon actions
     
     @IBAction func pokemonButtonPressed(_ sender: Any) {
         print("You pressed the pokemon button")
+        
+        self.selectimage = "pikachu"
+        sendtoWatch()
     }
+        
+    
+    
     @IBAction func caterpieButtonPressed(_ sender: Any) {
         print("You pressed the caterpie button")
+        
+        self.selectimage = "caterpie"
+        sendtoWatch()
+
+        
+        
+        
+        
     }
     
     
